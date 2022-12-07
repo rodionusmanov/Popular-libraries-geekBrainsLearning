@@ -19,15 +19,15 @@ class MainActivity : AppCompatActivity(), MainView {
 
         with(binding) {
             primaryButton.setOnClickListener {
-                presenter.onCounterClick(R.id.primary_button)
+                presenter.onCounterClick(0)
             }
 
             secondaryButton.setOnClickListener {
-                presenter.onCounterClick(R.id.secondary_button)
+                presenter.onCounterClick(1)
             }
 
             lowButton.setOnClickListener {
-                presenter.onCounterClick(R.id.low_button)
+                presenter.onCounterClick(2)
             }
         }
     }
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), MainView {
         val restoredArray = savedInstanceState.getIntArray("counters")
         restoredArray?.let {
             presenter.restoreInstanceState(restoredArray)
-            for (i in 0..restoredArray.size ){
+            for (i in 0..restoredArray.size - 1 ){
                 setText(restoredArray[i].toString(), i)
             }
         }
