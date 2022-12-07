@@ -32,6 +32,22 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putIntArray("counters", presenter.saveInstanceState())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val restoredArray = savedInstanceState.getIntArray("counters")
+        restoredArray?.let {
+            presenter.restoreInstanceState(restoredArray)
+            for (i in 0..restoredArray.size ){
+                setText(restoredArray[i].toString(), i)
+            }
+        }
+    }
+
     private fun initPresenter() {
         presenter = CountersPresenter(this)
     }

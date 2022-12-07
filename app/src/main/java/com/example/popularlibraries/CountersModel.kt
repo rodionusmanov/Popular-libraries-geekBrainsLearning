@@ -2,10 +2,18 @@ package com.example.popularlibraries
 
 class CountersModel {
 
-    private val counters = mutableListOf(0, 0, 0)
+    private var counters = mutableListOf(0, 0, 0)
 
     fun getCurrent(position: Int): Int {
         return counters[position]
+    }
+
+    fun getAll(): IntArray {
+        return counters.toIntArray()
+    }
+
+    fun setAll(array: IntArray) {
+        counters = array.toMutableList()
     }
 
     fun next(position: Int): Int {

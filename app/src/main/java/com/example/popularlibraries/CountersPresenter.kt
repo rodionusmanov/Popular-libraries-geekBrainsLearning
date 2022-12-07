@@ -20,4 +20,12 @@ class CountersPresenter(private val view: MainView) {
             }
         }
     }
+
+    fun saveInstanceState(): IntArray {
+        return model.getAll()
+    }
+
+    fun restoreInstanceState(counters: IntArray){
+        model.setAll(counters)
+    }
 }
