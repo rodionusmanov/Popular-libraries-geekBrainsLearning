@@ -2,7 +2,7 @@ package com.example.popularlibraries
 
 class CountersPresenter(private val view: MainView) {
 
-    val model = CountersModel()
+    private val model = CountersModel()
 
     fun onCounterClick(id: Int) {
         when (id) {

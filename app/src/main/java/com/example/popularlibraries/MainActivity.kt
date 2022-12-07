@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), MainView {
         val restoredArray = savedInstanceState.getIntArray("counters")
         restoredArray?.let {
             presenter.restoreInstanceState(restoredArray)
-            for (i in 0..restoredArray.size - 1 ){
+            for (i in restoredArray.indices){
                 setText(restoredArray[i].toString(), i)
             }
         }
@@ -52,12 +52,12 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter = CountersPresenter(this)
     }
 
-    override fun setText(counters: String, position: Int) {
+    override fun setText(counter: String, position: Int) {
         with(binding) {
             when (position) {
-                0 -> primaryTV.text = counters
-                1 -> secondaryTV.text = counters
-                2 -> lowTV.text = counters
+                0 -> primaryTV.text = counter
+                1 -> secondaryTV.text = counter
+                2 -> lowTV.text = counter
             }
         }
     }
