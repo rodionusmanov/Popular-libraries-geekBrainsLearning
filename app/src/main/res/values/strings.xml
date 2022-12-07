@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PopularLibraries</string>
+    <string name="text">text</string>
+    <string name="primary">primary</string>
+    <string name="secondary">secondary</string>
+    <string name="low">low</string>
+    <string name="_0">0</string>
+</resources>
