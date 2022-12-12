@@ -5,4 +5,6 @@
     <string name="secondary">secondary</string>
     <string name="low">low</string>
     <string name="_0">0</string>
+    <string name="some_text">some text</string>
+    <string name="activity">Activity</string>
 </resources>
