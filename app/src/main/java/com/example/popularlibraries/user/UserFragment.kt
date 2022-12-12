@@ -11,10 +11,11 @@ import com.example.popularlibraries.databinding.UserListFragmentBinding
 import com.example.popularlibraries.main.UserAdapter
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
+import com.example.popularlibraries.utils.userPosition
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
+class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnItemClick {
 
     companion object {
         fun getInstance(): UserFragment {
@@ -24,7 +25,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     private lateinit var viewBinding: UserListFragmentBinding
 
-    private val adapter = UserAdapter()
+    private val adapter = UserAdapter(this)
 
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(GithubRepositoryImpl(), PopularLibrariesApp.instance.router)
@@ -56,5 +57,14 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
         adapter.users = list
     }
 
+    override fun initInfo(user: GithubUser) {
+//        nothing to do
+    }
+
     override fun onBackPressed() = presenter.onBackPressed()
+
+    override fun onItemClick(position: Int) {
+        userPosition = position
+        presenter.itemClick()
+    }
 }

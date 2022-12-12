@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.popularlibraries.R
+import com.example.popularlibraries.databinding.GithubUserItemBinding
 import com.example.popularlibraries.model.GithubUser
+import com.example.popularlibraries.user.OnItemClick
 
-class UserAdapter() :
-    RecyclerView.Adapter<GithubUserViewHolder>() {
+class UserAdapter(private val callback: OnItemClick) :
+    RecyclerView.Adapter<UserAdapter.GithubUserViewHolder>() {
 
     var users: List<GithubUser> = emptyList()
         @SuppressLint("notifyDataSetChanged")
@@ -31,13 +32,16 @@ class UserAdapter() :
 
     override fun getItemCount() = users.size
 
-}
 
-class GithubUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class GithubUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private val tvLogin by lazy { itemView.findViewById<TextView>(R.id.user_login_tv) }
-
-    fun bind(item: GithubUser) = with(item) {
-        tvLogin.text = login
+        fun bind(user: GithubUser) {
+            GithubUserItemBinding.bind(itemView).apply {
+                userLoginTv.text = user.login
+                userCv.setOnClickListener {
+                    callback.onItemClick(position)
+                }
+            }
+        }
     }
 }
