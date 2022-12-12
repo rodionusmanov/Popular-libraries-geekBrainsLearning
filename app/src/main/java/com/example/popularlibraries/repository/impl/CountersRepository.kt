@@ -1,6 +1,6 @@
-package com.example.popularlibraries
+package com.example.popularlibraries.repository.impl
 
-class CountersModel {
+class CountersRepository {
 
     private var counters = mutableListOf(0, 0, 0)
 
