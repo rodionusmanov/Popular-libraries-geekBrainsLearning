@@ -16,13 +16,6 @@ import moxy.ktx.moxyPresenter
 class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     companion object {
-        /*fun newInstance(user: GithubUser): UserInfoFragment {
-            val bundle = Bundle()
-            bundle.putParcelable("BUNDLE_USER", user)
-            val fragment = UserInfoFragment()
-            fragment.arguments = bundle
-            return UserInfoFragment()
-        }*/
         fun getInstance(): UserInfoFragment {
             return UserInfoFragment()
         }
@@ -46,14 +39,6 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val user = arguments?.let {
-            it.getParcelable<GithubUser>("BUNDLE_USER")
-        }
-
-        user?.let {
-            initInfo(it)
-        }
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
@@ -63,6 +48,16 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
             userInfoLoginTv.text = user.login
             userInfoTextTv.text = user.info
         }
+    }
+
+    override fun loadingUserList() {
+        viewBinding.userInfoProgressBar.visibility = View.VISIBLE
+        viewBinding.userInfoCv.visibility = View.GONE
+    }
+
+    override fun loadingUserListEnd() {
+        viewBinding.userInfoProgressBar.visibility = View.GONE
+        viewBinding.userInfoCv.visibility = View.VISIBLE
     }
 
     override fun initList(list: List<GithubUser>) {
