@@ -11,7 +11,6 @@ import com.example.popularlibraries.databinding.UserListFragmentBinding
 import com.example.popularlibraries.main.UserAdapter
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import com.example.popularlibraries.utils.userPosition
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -61,10 +60,17 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnIt
 //        nothing to do
     }
 
+    override fun loadingUserList() {
+        viewBinding.userListProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun loadingUserListEnd() {
+        viewBinding.userListProgressBar.visibility = View.GONE
+    }
+
     override fun onBackPressed() = presenter.onBackPressed()
 
     override fun onItemClick(position: Int) {
-        userPosition = position
-        presenter.itemClick()
+        presenter.itemClick(position)
     }
 }

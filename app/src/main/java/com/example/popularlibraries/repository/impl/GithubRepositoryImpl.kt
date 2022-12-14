@@ -1,6 +1,7 @@
 package com.example.popularlibraries.repository.impl
 
 import com.example.popularlibraries.model.GithubUser
+import io.reactivex.rxjava3.core.Single
 
 class GithubRepositoryImpl {
 
@@ -12,7 +13,15 @@ class GithubRepositoryImpl {
         GithubUser("Earl", "Earl's info")
     )
 
-    fun getUsers(): List<GithubUser>{
-        return repositories
+    fun getUsers(): Single<List<GithubUser>> {
+        return Single.create {
+            it.onSuccess(repositories)
+        }
+    }
+
+    fun getCurrentUser(id:Int): Single<GithubUser>{
+        return Single.create {
+            it.onSuccess(repositories[id])
+        }
     }
 }

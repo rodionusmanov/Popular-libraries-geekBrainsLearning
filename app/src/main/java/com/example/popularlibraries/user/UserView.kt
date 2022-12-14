@@ -11,4 +11,8 @@ interface UserView : MvpView {
     fun initList(list: List<GithubUser>)
 
     fun initInfo(user: GithubUser)
+
+    fun loadingUserList()
+
+    fun loadingUserListEnd()
 }

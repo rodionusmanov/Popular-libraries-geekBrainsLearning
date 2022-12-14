@@ -1,14 +1,14 @@
 package com.example.popularlibraries.user
 
-import android.widget.Toast
 import com.example.popularlibraries.core.navigation.UserInfoScreen
-import com.example.popularlibraries.core.navigation.UsersScreen
-import com.example.popularlibraries.model.GithubUser
-import com.example.popularlibraries.repository.GithubRepository
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
+import com.example.popularlibraries.utils.fakeDelay
+import com.example.popularlibraries.utils.userPosition
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
-import java.text.FieldPosition
+import java.util.concurrent.TimeUnit
 
 class UserPresenter(
     private val repository: GithubRepositoryImpl,
@@ -17,10 +17,20 @@ class UserPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.initList(repository.getUsers())
+        viewState.loadingUserList()
+        repository.getUsers()
+            .subscribeOn(Schedulers.io())
+            .delay(fakeDelay.toLong(), TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    viewState.initList(it)
+                    viewState.loadingUserListEnd()
+                }, {}
+            )
     }
 
-    fun itemClick() {
+    fun itemClick(position:Int) {
+        userPosition = position
         router.replaceScreen(UserInfoScreen)
     }
 
