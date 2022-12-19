@@ -1,5 +1,6 @@
 package com.example.popularlibraries.imageConverter
 
+import android.Manifest
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.popularlibraries.PopularLibrariesApp
+import androidx.core.app.ActivityCompat
+import com.example.popularlibraries.R
 import com.example.popularlibraries.databinding.ImageConverterLayoutBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import moxy.presenter.InjectPresenter
 
 class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView {
 
@@ -31,7 +32,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView {
         }
 
     private val presenter: ImageConverterPresenter by moxyPresenter {
-        ImageConverterPresenter(ImageConverterRepositoryImpl(), PopularLibrariesApp.instance.router)
+        ImageConverterPresenter(ImageConverterRepositoryImpl())
     }
 
     override fun onCreateView(
@@ -39,6 +40,13 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        ActivityCompat.requestPermissions(
+            requireActivity(), arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            100
+        )
         return ImageConverterLayoutBinding.inflate(inflater, container, false).also {
             binding = it
         }.root
@@ -47,26 +55,35 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+
             pickImageButton.setOnClickListener {
                 presenter.buttonPickClick()
             }
 
-            /*convertButton.setOnClickListener {
+            convertButton.setOnClickListener {
                 if (converterIv.drawable != null) {
-                    val bitmap = (converterIv.getDrawable() as BitmapDrawable).bitmap
-                    Toast.makeText(requireContext(), bitmap.toString(), Toast.LENGTH_SHORT).show()
+                    val bitmap = (converterIv.drawable as BitmapDrawable).bitmap
+                    presenter.convertImageButtonClick(bitmap)
                 } else {
-                    Toast.makeText(requireContext(), "нет изображения для конвертации", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.picture_is_not_avalible),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            }*/
+            }
         }
     }
 
-    fun openFileChooser() {
+    private fun openFileChooser() {
         fileChooserContract.launch("image/*")
     }
 
     override fun pickImage() {
         openFileChooser()
+    }
+
+    override fun convertImage() {
+        Toast.makeText(requireContext(), "converted", Toast.LENGTH_SHORT).show()
     }
 }

@@ -10,4 +10,5 @@
     <string name="convert">Convert</string>
     <string name="image">image</string>
     <string name="pick_image">Pick image</string>
+    <string name="picture_is_not_avalible">нет изображения для конвертации</string>
 </resources>

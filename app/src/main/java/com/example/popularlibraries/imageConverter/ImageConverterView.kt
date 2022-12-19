@@ -8,4 +8,6 @@ import moxy.viewstate.strategy.StateStrategyType
 interface ImageConverterView: MvpView {
 
     fun pickImage()
+
+    fun convertImage()
 }
