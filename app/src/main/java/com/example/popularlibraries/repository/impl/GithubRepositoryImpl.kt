@@ -1,11 +1,7 @@
 package com.example.popularlibraries.repository.impl
 
 import com.example.popularlibraries.model.GithubUser
-import com.example.popularlibraries.utils.fakeDelay
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.delay
-import java.util.concurrent.TimeUnit
 
 class GithubRepositoryImpl {
 

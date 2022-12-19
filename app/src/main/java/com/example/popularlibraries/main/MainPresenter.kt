@@ -1,8 +1,7 @@
 package com.example.popularlibraries.main
 
+import com.example.popularlibraries.core.navigation.ImageConverterScreen
 import com.example.popularlibraries.core.navigation.UsersScreen
-import com.example.popularlibraries.repository.GithubRepository
-import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import com.github.terrakok.cicerone.Router
 import moxy.InjectViewState
 import moxy.MvpPresenter
@@ -14,7 +13,7 @@ class MainPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.replaceScreen(UsersScreen)
+        router.replaceScreen(ImageConverterScreen)
     }
 
     fun onBackPressed() {

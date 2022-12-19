@@ -16,8 +16,6 @@ class UserPresenter(
     private val router: Router
 ) : MvpPresenter<UserView>() {
 
-    private lateinit var userCollector: MutableList<GithubUser>
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.loadingUserList()
