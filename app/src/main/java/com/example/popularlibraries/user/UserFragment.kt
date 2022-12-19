@@ -48,10 +48,6 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnIt
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun initList(list: List<GithubUser>) {
         adapter.users = list
     }

@@ -7,4 +7,8 @@
     <string name="_0">0</string>
     <string name="some_text">some text</string>
     <string name="activity">Activity</string>
+    <string name="convert">Convert</string>
+    <string name="image">image</string>
+    <string name="pick_image">Pick image</string>
+    <string name="picture_is_not_avalible">нет изображения для конвертации</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.popularlibraries.user
 
 import com.example.popularlibraries.core.navigation.UserInfoScreen
+import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import com.example.popularlibraries.utils.fakeDelay
 import com.example.popularlibraries.utils.userPosition
@@ -29,7 +30,7 @@ class UserPresenter(
             )
     }
 
-    fun itemClick(position:Int) {
+    fun itemClick(position: Int) {
         userPosition = position
         router.replaceScreen(UserInfoScreen)
     }
