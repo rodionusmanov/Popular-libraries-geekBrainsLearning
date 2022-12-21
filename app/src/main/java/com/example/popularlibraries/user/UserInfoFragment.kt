@@ -6,32 +6,45 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.popularlibraries.PopularLibrariesApp
 import com.example.popularlibraries.core.BackPressedListener
+import com.example.popularlibraries.core.network.NetworkProvider
+import com.example.popularlibraries.core.utils.loadImage
 import com.example.popularlibraries.databinding.UserInfoFragmentBinding
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import com.example.popularlibraries.utils.userPosition
+import com.example.popularlibraries.core.utils.userPosition
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     companion object {
-        fun getInstance(): UserInfoFragment {
-            return UserInfoFragment()
+        private const val ARG_LOGIN = "ARG_LOGIN"
+        fun getInstance(login: String): UserInfoFragment {
+            return UserInfoFragment().apply {
+                arguments = Bundle().apply{
+                    putString(ARG_LOGIN, login)
+                }
+            }
         }
     }
 
     private lateinit var viewBinding: UserInfoFragmentBinding
 
     private val presenter: UserInfoPresenter by moxyPresenter {
-        UserInfoPresenter(GithubRepositoryImpl(), PopularLibrariesApp.instance.router)
+        UserInfoPresenter(
+            GithubRepositoryImpl(NetworkProvider.usersApi),
+            PopularLibrariesApp.instance.router
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        arguments?.getString(ARG_LOGIN)?.let{
+            presenter.loadUser(it)
+        }
         return UserInfoFragmentBinding.inflate(inflater, container, false).also {
             viewBinding = it
         }.root
@@ -46,7 +59,7 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
     override fun initInfo(user: GithubUser) {
         with(viewBinding) {
             userInfoLoginTv.text = user.login
-            userInfoTextTv.text = user.info
+            userAvatarIv.loadImage(user.avatarUrl)
         }
     }
 

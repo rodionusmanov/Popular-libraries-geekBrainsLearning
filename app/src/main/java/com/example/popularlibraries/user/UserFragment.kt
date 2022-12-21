@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.popularlibraries.PopularLibrariesApp
 import com.example.popularlibraries.core.BackPressedListener
+import com.example.popularlibraries.core.network.NetworkProvider
 import com.example.popularlibraries.databinding.UserListFragmentBinding
-import com.example.popularlibraries.main.UserAdapter
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnItemClick {
+class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     companion object {
         fun getInstance(): UserFragment {
@@ -24,10 +24,17 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnIt
 
     private lateinit var viewBinding: UserListFragmentBinding
 
-    private val adapter = UserAdapter(this)
+    private val adapter = UserAdapter{
+        presenter.onItemClick(it)
+    }
 
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(GithubRepositoryImpl(), PopularLibrariesApp.instance.router)
+        UserPresenter(
+            GithubRepositoryImpl(
+                NetworkProvider.usersApi
+            ),
+            PopularLibrariesApp.instance.router
+        )
     }
 
     override fun onCreateView(
@@ -65,8 +72,4 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener, OnIt
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
-
-    override fun onItemClick(position: Int) {
-        presenter.itemClick(position)
-    }
 }
