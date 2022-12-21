@@ -13,7 +13,7 @@ class MainPresenter(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.replaceScreen(ImageConverterScreen)
+        router.replaceScreen(UsersScreen)
     }
 
     fun onBackPressed() {

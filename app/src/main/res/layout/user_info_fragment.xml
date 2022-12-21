@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_gray"
         app:cardCornerRadius="@dimen/corner_radius_size"
+        android:layout_margin="@dimen/cardview_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +23,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/cardview_margin"
-                app:cardCornerRadius="@dimen/corner_radius_size">
-
                 <TextView
                     android:id="@+id/user_info_login_tv"
                     android:layout_width="wrap_content"
@@ -37,15 +31,30 @@
                     android:paddingStart="@dimen/header_padding_size"
                     android:paddingEnd="@dimen/header_padding_size"
                     android:textSize="@dimen/header_text_size" />
-            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/user_avatar_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/user_info_text_tv"
+                android:id="@+id/repos_header_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="@dimen/body_text_size" />
+                android:text="@string/user_repositories"
+                android:paddingStart="@dimen/header_padding_size"
+                android:paddingEnd="@dimen/header_padding_size"
+                android:textSize="@dimen/header_text_size" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/user_repos_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <ProgressBar

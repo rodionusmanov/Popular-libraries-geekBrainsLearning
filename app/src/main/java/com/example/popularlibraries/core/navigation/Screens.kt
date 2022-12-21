@@ -13,13 +13,13 @@ object UsersScreen : FragmentScreen {
     }
 }
 
-object UserInfoScreen : FragmentScreen{
+data class UserInfoScreen(private val login: String) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment {
-        return UserInfoFragment.getInstance()
+        return UserInfoFragment.getInstance(login)
     }
 }
 
-object ImageConverterScreen : FragmentScreen{
+object ImageConverterScreen : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment {
         return ImageConverterFragment.getInstance()
     }

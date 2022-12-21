@@ -2,7 +2,7 @@ package com.example.popularlibraries.imageConverter
 
 import android.graphics.Bitmap
 import android.os.Environment
-import com.example.popularlibraries.utils.fakeDelay
+import com.example.popularlibraries.core.utils.fakeDelay
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import java.io.File

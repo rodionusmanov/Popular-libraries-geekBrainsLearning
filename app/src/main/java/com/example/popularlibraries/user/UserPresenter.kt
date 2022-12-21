@@ -1,10 +1,8 @@
 package com.example.popularlibraries.user
 
 import com.example.popularlibraries.core.navigation.UserInfoScreen
-import com.example.popularlibraries.model.GithubUser
+import com.example.popularlibraries.core.utils.fakeDelay
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import com.example.popularlibraries.utils.fakeDelay
-import com.example.popularlibraries.utils.userPosition
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -30,13 +28,12 @@ class UserPresenter(
             )
     }
 
-    fun itemClick(position: Int) {
-        userPosition = position
-        router.replaceScreen(UserInfoScreen)
-    }
-
     fun onBackPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    fun onItemClick(login: String) {
+        router.navigateTo(UserInfoScreen(login))
     }
 }

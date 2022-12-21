@@ -1,12 +1,13 @@
 package com.example.popularlibraries.user
 
 import com.example.popularlibraries.core.navigation.UsersScreen
+import com.example.popularlibraries.core.utils.disposeBy
+import com.example.popularlibraries.core.utils.fakeDelay
+import com.example.popularlibraries.core.utils.subscribeByDefault
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import com.example.popularlibraries.utils.fakeDelay
-import com.example.popularlibraries.utils.userPosition
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
 
@@ -15,22 +16,43 @@ class UserInfoPresenter(
     private val router: Router
 ) : MvpPresenter<UserView>() {
 
+    private val bag = CompositeDisposable()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+    }
+
+    fun loadUser(login: String) {
         viewState.loadingUserList()
-        repository.getCurrentUser(userPosition)
-            .subscribeOn(Schedulers.io())
+        repository.getUserById(login)
+            .subscribeByDefault()
             .delay(fakeDelay.toLong(), TimeUnit.SECONDS, AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     viewState.initInfo(it)
                     viewState.loadingUserListEnd()
                 }, {}
-            )
+            ).disposeBy(bag)
+        repository.getUserRepos(login)
+            .subscribeByDefault()
+            .subscribe(
+                {
+                    viewState.initRepoList(it)
+                }, {}
+            ).disposeBy(bag)
     }
 
     fun onBackPressed(): Boolean {
         router.replaceScreen(UsersScreen)
         return true
+    }
+
+    fun onItemClick(forksCount: Int) {
+        viewState.displayForksCount(forksCount)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bag.dispose()
     }
 }
