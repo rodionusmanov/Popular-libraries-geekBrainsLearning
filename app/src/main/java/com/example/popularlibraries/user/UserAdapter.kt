@@ -34,7 +34,6 @@ class UserAdapter(
 
     override fun getItemCount() = users.size
 
-
     inner class GithubUserViewHolder(
         private val binding: GithubUserItemBinding,
         private val onUserClickListener: OnUserClickListener

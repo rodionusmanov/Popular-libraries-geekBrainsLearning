@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/repo_cv"
+    android:background="@color/white"
+    app:cardCornerRadius="@dimen/corner_radius_size"
+    android:layout_margin="@dimen/cardview_margin">
+
+    <TextView
+        android:id="@+id/repo_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/some_text"
+        android:textSize="@dimen/header_text_size" />
+</androidx.cardview.widget.CardView>

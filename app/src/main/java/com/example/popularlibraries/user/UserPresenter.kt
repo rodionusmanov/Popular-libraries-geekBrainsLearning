@@ -8,7 +8,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
 
 class UserPresenter(
     private val repository: GithubRepositoryImpl,
@@ -27,10 +26,6 @@ class UserPresenter(
                     viewState.loadingUserListEnd()
                 }, {}
             )
-    }
-
-    fun itemClick(login: String) {
-        router.replaceScreen(UserInfoScreen(login))
     }
 
     fun onBackPressed(): Boolean {

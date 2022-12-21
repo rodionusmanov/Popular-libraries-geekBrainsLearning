@@ -10,6 +10,7 @@ import com.example.popularlibraries.core.BackPressedListener
 import com.example.popularlibraries.core.network.NetworkProvider
 import com.example.popularlibraries.databinding.UserListFragmentBinding
 import com.example.popularlibraries.model.GithubUser
+import com.example.popularlibraries.model.UserRepo
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -69,6 +70,14 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     override fun loadingUserListEnd() {
         viewBinding.userListProgressBar.visibility = View.GONE
+    }
+
+    override fun initRepoList(list: List<UserRepo>) {
+//        nothing to do
+    }
+
+    override fun displayForksCount(forksCount: Int){
+//        nothing to do
     }
 
     override fun onBackPressed() = presenter.onBackPressed()

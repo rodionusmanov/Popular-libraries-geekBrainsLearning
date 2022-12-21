@@ -4,24 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.popularlibraries.PopularLibrariesApp
 import com.example.popularlibraries.core.BackPressedListener
 import com.example.popularlibraries.core.network.NetworkProvider
 import com.example.popularlibraries.core.utils.loadImage
 import com.example.popularlibraries.databinding.UserInfoFragmentBinding
 import com.example.popularlibraries.model.GithubUser
+import com.example.popularlibraries.model.UserRepo
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import com.example.popularlibraries.core.utils.userPosition
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener {
+class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     companion object {
         private const val ARG_LOGIN = "ARG_LOGIN"
         fun getInstance(login: String): UserInfoFragment {
             return UserInfoFragment().apply {
-                arguments = Bundle().apply{
+                arguments = Bundle().apply {
                     putString(ARG_LOGIN, login)
                 }
             }
@@ -30,9 +31,15 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
 
     private lateinit var viewBinding: UserInfoFragmentBinding
 
+    private val adapter = RepoAdapter {
+        presenter.onItemClick(it)
+    }
+
     private val presenter: UserInfoPresenter by moxyPresenter {
         UserInfoPresenter(
-            GithubRepositoryImpl(NetworkProvider.usersApi),
+            GithubRepositoryImpl(
+                NetworkProvider.usersApi
+            ),
             PopularLibrariesApp.instance.router
         )
     }
@@ -42,7 +49,7 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        arguments?.getString(ARG_LOGIN)?.let{
+        arguments?.getString(ARG_LOGIN)?.let {
             presenter.loadUser(it)
         }
         return UserInfoFragmentBinding.inflate(inflater, container, false).also {
@@ -52,6 +59,10 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        with(viewBinding) {
+            userReposRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            userReposRecyclerView.adapter = adapter
+        }
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
@@ -75,5 +86,14 @@ class UserInfoFragment() : MvpAppCompatFragment(), UserView, BackPressedListener
 
     override fun initList(list: List<GithubUser>) {
 //      nothing to do
+    }
+
+    override fun initRepoList(list: List<UserRepo>) {
+        adapter.repos = list
+    }
+
+    override fun displayForksCount(forksCount: Int){
+        val dialog = ForksCounterDialogFragment(forksCount)
+        dialog.show(requireActivity().supportFragmentManager, "forks count")
     }
 }
