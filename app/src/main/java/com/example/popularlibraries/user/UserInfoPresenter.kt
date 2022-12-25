@@ -6,14 +6,15 @@ import com.example.popularlibraries.core.utils.fakeDelay
 import com.example.popularlibraries.core.utils.subscribeByDefault
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
 
 class UserInfoPresenter(
     private val repository: GithubRepositoryImpl,
-    private val router: Router
+    private val router: Router,
+    private val mainThreadScheduler: Scheduler
 ) : MvpPresenter<UserView>() {
 
     private val bag = CompositeDisposable()
@@ -26,7 +27,7 @@ class UserInfoPresenter(
         viewState.loadingUserList()
         repository.getUserById(login)
             .subscribeByDefault()
-            .delay(fakeDelay.toLong(), TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+            .delay(fakeDelay.toLong(), TimeUnit.SECONDS, mainThreadScheduler)
             .subscribe(
                 {
                     viewState.initInfo(it)

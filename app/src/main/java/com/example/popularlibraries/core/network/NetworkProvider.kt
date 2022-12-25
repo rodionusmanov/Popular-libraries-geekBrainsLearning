@@ -10,21 +10,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkProvider {
 
-    val usersApi by lazy { createRetrofit().create(UsersApi::class.java) }
+    val usersApi: UsersApi by lazy { createRetrofit().create(UsersApi::class.java) }
 
     private fun createGson() = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .excludeFieldsWithoutExposeAnnotation()
         .create()
 
-    fun createRetrofit() = Retrofit.Builder()
-        .client(createClient())
+    private fun createRetrofit() = Retrofit.Builder()
+        .client(createClientWithInterceptor())
         .baseUrl(BuildConfig.SERVER_URL)
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(createGson()))
         .build()
 
-    private fun createClient() = OkHttpClient
-        .Builder()
-        .build()
+    private fun createClientWithInterceptor(): OkHttpClient {
+        val client = OkHttpClient.Builder()
+        client.addInterceptor { chain ->
+            val original = chain.request()
+            val requestBuilder = original.newBuilder()
+                .header("Authorization", "MY_API_KEY")
+            val request = requestBuilder.build()
+            chain.proceed(request)
+        }
+        return client.build()
+    }
 }

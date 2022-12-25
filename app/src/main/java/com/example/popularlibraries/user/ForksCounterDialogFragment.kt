@@ -10,7 +10,11 @@ import com.example.popularlibraries.databinding.ForksCountDialogBinding
 
 class ForksCounterDialogFragment(private val forksCount: Int) : DialogFragment() {
 
-    private lateinit var viewBinding: ForksCountDialogBinding
+    private var _viewBinding: ForksCountDialogBinding? = null
+    private val viewBinding: ForksCountDialogBinding
+        get() {
+            return _viewBinding!!
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,7 +22,7 @@ class ForksCounterDialogFragment(private val forksCount: Int) : DialogFragment()
         savedInstanceState: Bundle?
     ): View {
         return ForksCountDialogBinding.inflate(inflater, container, false).also {
-            viewBinding = it
+            _viewBinding = it
         }.root
     }
 
@@ -28,6 +32,7 @@ class ForksCounterDialogFragment(private val forksCount: Int) : DialogFragment()
             forksCountTv.text = "Number of forks: $forksCount"
             root.setOnClickListener {
                 dismiss()
+                _viewBinding = null
             }
         }
     }

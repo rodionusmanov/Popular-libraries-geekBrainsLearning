@@ -13,6 +13,7 @@ import com.example.popularlibraries.databinding.UserInfoFragmentBinding
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.model.UserRepo
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -40,7 +41,8 @@ class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
             GithubRepositoryImpl(
                 NetworkProvider.usersApi
             ),
-            PopularLibrariesApp.instance.router
+            PopularLibrariesApp.instance.router,
+            AndroidSchedulers.mainThread()
         )
     }
 
