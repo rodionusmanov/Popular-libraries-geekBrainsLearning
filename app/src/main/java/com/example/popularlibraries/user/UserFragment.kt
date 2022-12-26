@@ -60,13 +60,15 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
             sourceSwitcher.setOnClickListener {
                 sourceSwitcherChange()
-
             }
         }
     }
 
     override fun initList(list: List<GithubUser>) {
         adapter.users = list
+        if (!sourceFlag) {
+            viewBinding.sourceSwitcher.text = resources.getText(R.string.from_database)
+        }
     }
 
     override fun initInfo(user: GithubUser) {

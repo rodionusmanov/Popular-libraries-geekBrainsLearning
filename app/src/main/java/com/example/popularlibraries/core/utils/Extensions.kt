@@ -36,16 +36,3 @@ fun View.makeVisible() {
 fun View.makeGone() {
     this.visibility = View.GONE
 }
-
-fun <T> Single<T>.doCompletableIf(
-    predicate: Boolean,
-    completableCreator: (data: T) -> Completable
-): Single<T> {
-    return if (predicate) {
-        this.flatMap {
-            completableCreator(it).andThen(Single.just(it))
-        }
-    } else {
-        this
-    }
-}
