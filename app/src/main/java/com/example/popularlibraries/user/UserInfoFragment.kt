@@ -39,7 +39,9 @@ class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     private val presenter: UserInfoPresenter by moxyPresenter {
         UserInfoPresenter(
             GithubRepositoryImpl(
-                NetworkProvider.usersApi
+                NetworkProvider.usersApi,
+                PopularLibrariesApp.instance.database.userDao(),
+                PopularLibrariesApp.instance.getConnectSingle()
             ),
             PopularLibrariesApp.instance.router,
             AndroidSchedulers.mainThread()

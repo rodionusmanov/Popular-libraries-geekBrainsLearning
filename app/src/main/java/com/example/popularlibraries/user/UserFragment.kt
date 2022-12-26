@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.popularlibraries.PopularLibrariesApp
+import com.example.popularlibraries.R
 import com.example.popularlibraries.core.BackPressedListener
 import com.example.popularlibraries.core.network.NetworkProvider
+import com.example.popularlibraries.core.utils.sourceFlag
 import com.example.popularlibraries.databinding.UserListFragmentBinding
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.model.UserRepo
@@ -32,7 +34,9 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             GithubRepositoryImpl(
-                NetworkProvider.usersApi
+                NetworkProvider.usersApi,
+                PopularLibrariesApp.instance.database.userDao(),
+                PopularLibrariesApp.instance.getConnectSingle()
             ),
             PopularLibrariesApp.instance.router
         )
@@ -53,6 +57,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
         with(viewBinding) {
             githubUsersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             githubUsersRecyclerView.adapter = adapter
+
+            sourceSwitcher.setOnClickListener {
+                sourceSwitcherChange()
+
+            }
         }
     }
 
@@ -81,4 +90,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
+
+    fun sourceSwitcherChange(){
+        sourceFlag = !sourceFlag
+        if (sourceFlag) {
+            viewBinding.sourceSwitcher.text = resources.getText(R.string.from_network)
+        } else {
+            viewBinding.sourceSwitcher.text = resources.getText(R.string.from_database)
+        }
+    }
 }

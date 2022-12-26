@@ -13,4 +13,6 @@
     <string name="picture_is_not_avalible">нет изображения для конвертации</string>
     <string name="user_avatar">user avatar</string>
     <string name="user_repositories">User repositories:</string>
+    <string name="from_network">From network</string>
+    <string name="from_database">From database</string>
 </resources>

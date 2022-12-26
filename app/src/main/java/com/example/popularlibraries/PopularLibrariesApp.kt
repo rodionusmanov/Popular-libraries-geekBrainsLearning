@@ -1,8 +1,13 @@
 package com.example.popularlibraries
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import com.example.popularlibraries.core.database.GithubAppDb
+import com.example.popularlibraries.core.utils.ConnectivityListener
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 class PopularLibrariesApp : Application() {
 
@@ -17,8 +22,22 @@ class PopularLibrariesApp : Application() {
     val navigationHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
 
+    val database by lazy { GithubAppDb.create(this) }
+
+    private lateinit var connectivityListener: ConnectivityListener
+
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        connectivityListener = ConnectivityListener(
+            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        )
+
+        RxJavaPlugins.setErrorHandler {
+
+        }
     }
+
+    fun getConnectSingle() = connectivityListener.statusSingle()
 }
