@@ -60,11 +60,6 @@ class ImageConverterPresenter(
 
         try {
             outputStream?.flush()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        try {
             outputStream?.close()
         } catch (e: IOException) {
             e.printStackTrace()

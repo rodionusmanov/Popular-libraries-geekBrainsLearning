@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.example.popularlibraries.R
+import com.example.popularlibraries.core.utils.PICTURE_QUALITY
 import com.example.popularlibraries.databinding.ImageConverterLayoutBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -45,7 +46,7 @@ class ImageConverterFragment : MvpAppCompatFragment(), ImageConverterView {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ),
-            100
+            PICTURE_QUALITY
         )
         return ImageConverterLayoutBinding.inflate(inflater, container, false).also {
             binding = it
