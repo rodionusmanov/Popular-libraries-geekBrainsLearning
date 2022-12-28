@@ -16,6 +16,7 @@ import com.example.popularlibraries.model.UserRepo
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
@@ -27,19 +28,16 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     private lateinit var viewBinding: UserListFragmentBinding
 
-    private val adapter = UserAdapter{
+    private val adapter = UserAdapter {
         presenter.onItemClick(it)
     }
 
+    @Inject
+    lateinit var userPresenter: UserPresenter
+
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(
-            GithubRepositoryImpl(
-                NetworkProvider.usersApi,
-                PopularLibrariesApp.instance.database.userDao(),
-                PopularLibrariesApp.instance.getConnectSingle()
-            ),
-            PopularLibrariesApp.instance.router
-        )
+        PopularLibrariesApp.applicationComponent.injectUserFragment(this)
+        userPresenter
     }
 
     override fun onCreateView(
@@ -87,13 +85,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 //        nothing to do
     }
 
-    override fun displayForksCount(forksCount: Int){
+    override fun displayForksCount(forksCount: Int) {
 //        nothing to do
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
 
-    fun sourceSwitcherChange(){
+    private fun sourceSwitcherChange() {
         sourceFlag = !sourceFlag
         if (sourceFlag) {
             viewBinding.sourceSwitcher.text = resources.getText(R.string.from_network)
