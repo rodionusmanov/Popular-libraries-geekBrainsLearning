@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.popularlibraries.PopularLibrariesApp
 import com.example.popularlibraries.core.BackPressedListener
-import com.example.popularlibraries.core.network.NetworkProvider
 import com.example.popularlibraries.core.utils.loadImage
 import com.example.popularlibraries.databinding.UserInfoFragmentBinding
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.model.UserRepo
-import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -38,15 +35,11 @@ class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     }
 
     @Inject
-    lateinit var githubRepositoryImpl: GithubRepositoryImpl
+    lateinit var userInfoPresenter: UserInfoPresenter
 
     private val presenter: UserInfoPresenter by moxyPresenter {
         PopularLibrariesApp.applicationComponent.injectUserInfoFragment(this)
-        UserInfoPresenter(
-            githubRepositoryImpl,
-            PopularLibrariesApp.instance.router,
-            AndroidSchedulers.mainThread()
-        )
+        userInfoPresenter
     }
 
     override fun onCreateView(

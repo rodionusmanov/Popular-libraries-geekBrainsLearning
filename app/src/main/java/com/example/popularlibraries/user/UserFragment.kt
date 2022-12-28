@@ -33,14 +33,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     }
 
     @Inject
-    lateinit var githubRepositoryImpl: GithubRepositoryImpl
+    lateinit var userPresenter: UserPresenter
 
     private val presenter: UserPresenter by moxyPresenter {
         PopularLibrariesApp.applicationComponent.injectUserFragment(this)
-        UserPresenter(
-            githubRepositoryImpl,
-            PopularLibrariesApp.instance.router
-        )
+        userPresenter
     }
 
     override fun onCreateView(

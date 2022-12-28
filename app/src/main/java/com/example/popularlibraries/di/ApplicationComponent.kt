@@ -1,5 +1,6 @@
 package com.example.popularlibraries.di
 
+import com.example.popularlibraries.core.database.UserDAO
 import com.example.popularlibraries.user.UserFragment
 import com.example.popularlibraries.user.UserInfoFragment
 import dagger.Component

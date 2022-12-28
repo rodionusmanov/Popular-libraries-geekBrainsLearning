@@ -4,10 +4,13 @@ import com.example.popularlibraries.BuildConfig
 import com.example.popularlibraries.PopularLibrariesApp
 import com.example.popularlibraries.core.network.UsersApi
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
+import com.example.popularlibraries.user.UserInfoPresenter
+import com.example.popularlibraries.user.UserPresenter
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -16,6 +19,25 @@ import javax.inject.Singleton
 
 @Module
 class GithubUsersListModule {
+
+    @Provides
+    @Singleton
+    fun provideUserPresenter(): UserPresenter {
+        return UserPresenter(
+            provideImpl(),
+            PopularLibrariesApp.instance.router
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserInfoPresenter(): UserInfoPresenter {
+        return UserInfoPresenter(
+            provideImpl(),
+            PopularLibrariesApp.instance.router,
+            AndroidSchedulers.mainThread()
+        )
+    }
 
     @Provides
     @Singleton
@@ -30,7 +52,7 @@ class GithubUsersListModule {
     @Provides
     @Singleton
     fun provideUsersApi(): UsersApi {
-        val usersApi : UsersApi by lazy { provideRetrofit().create(UsersApi::class.java) }
+        val usersApi: UsersApi by lazy { provideRetrofit().create(UsersApi::class.java) }
         return usersApi
     }
 
