@@ -93,7 +93,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
     override fun onBackPressed() = presenter.onBackPressed()
 
-    fun sourceSwitcherChange(){
+    private fun sourceSwitcherChange(){
         sourceFlag = !sourceFlag
         if (sourceFlag) {
             viewBinding.sourceSwitcher.text = resources.getText(R.string.from_network)
