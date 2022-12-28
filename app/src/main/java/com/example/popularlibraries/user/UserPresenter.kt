@@ -17,7 +17,8 @@ class UserPresenter(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.loadingUserList()
-        repository.getUsers()
+        repository
+            .getUsers()
             .subscribeOn(Schedulers.io())
             .delay(fakeDelay.toLong(), TimeUnit.SECONDS, AndroidSchedulers.mainThread())
             .subscribe(

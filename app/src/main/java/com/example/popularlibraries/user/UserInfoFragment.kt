@@ -16,6 +16,7 @@ import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
 
@@ -36,13 +37,13 @@ class UserInfoFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
         presenter.onItemClick(it)
     }
 
+    @Inject
+    lateinit var githubRepositoryImpl: GithubRepositoryImpl
+
     private val presenter: UserInfoPresenter by moxyPresenter {
+        PopularLibrariesApp.applicationComponent.injectUserInfoFragment(this)
         UserInfoPresenter(
-            GithubRepositoryImpl(
-                NetworkProvider.usersApi,
-                PopularLibrariesApp.instance.database.userDao(),
-                PopularLibrariesApp.instance.getConnectSingle()
-            ),
+            githubRepositoryImpl,
             PopularLibrariesApp.instance.router,
             AndroidSchedulers.mainThread()
         )
