@@ -7,7 +7,7 @@ import com.example.popularlibraries.core.network.UserDTO
 import com.example.popularlibraries.model.GithubUser
 import com.example.popularlibraries.model.UserRepo
 
-object UserMapper {
+class UserMapper {
 
     fun mapToEntity(dto: UserDTO): GithubUser {
         return GithubUser(

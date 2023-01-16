@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class GithubUsersListModule {
+class PresentersModule {
 
     @Provides
     @Singleton
