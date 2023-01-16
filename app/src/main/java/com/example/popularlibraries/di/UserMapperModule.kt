@@ -11,6 +11,11 @@ class UserMapperModule {
     @Provides
     @Singleton
     fun provideUserMapper(): UserMapper {
+<<<<<<< HEAD
         return UserMapper()
+=======
+        val userMapper = UserMapper()
+        return userMapper
+>>>>>>> a09c566 (8 ДЗ. Добавил компонент для зависимости класса UserMapper.)
     }
 }

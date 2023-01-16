@@ -23,7 +23,11 @@ class GithubRepositoryImpl constructor(
     lateinit var mapper: UserMapper
 
     private val userMapper: UserMapper by lazy {
+<<<<<<< HEAD
         PopularLibrariesApp.instance.applicationComponent.inject(this)
+=======
+        PopularLibrariesApp.applicationComponent.injectUserMapper(this)
+>>>>>>> a09c566 (8 ДЗ. Добавил компонент для зависимости класса UserMapper.)
         mapper
     }
 

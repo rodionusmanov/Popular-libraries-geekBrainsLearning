@@ -21,6 +21,7 @@ import javax.inject.Singleton
 
 @Module
 class PresentersModule {
+<<<<<<< HEAD
 
     @Inject
     lateinit var currentRouter: Router
@@ -29,6 +30,8 @@ class PresentersModule {
         PopularLibrariesApp.instance.applicationComponent.inject(this)
         currentRouter
     }
+=======
+>>>>>>> a09c566 (8 ДЗ. Добавил компонент для зависимости класса UserMapper.)
 
     @Provides
     @Singleton

@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class UserPresenter(
     private val repository: GithubRepositoryImpl,
