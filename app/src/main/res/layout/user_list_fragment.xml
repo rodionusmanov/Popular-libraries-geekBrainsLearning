@@ -17,14 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/source_switcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/from_network"
-            android:textSize="@dimen/body_text_size" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/github_users_recycler_view"
             android:layout_width="match_parent"

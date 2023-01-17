@@ -6,6 +6,7 @@ import com.example.popularlibraries.core.network.UsersApi
 import com.example.popularlibraries.repository.impl.GithubRepositoryImpl
 import com.example.popularlibraries.user.UserInfoPresenter
 import com.example.popularlibraries.user.UserPresenter
+import com.github.terrakok.cicerone.Router
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -15,17 +16,29 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class GithubUsersListModule {
+class PresentersModule {
+<<<<<<< HEAD
+
+    @Inject
+    lateinit var currentRouter: Router
+
+    val router : Router by lazy {
+        PopularLibrariesApp.instance.applicationComponent.inject(this)
+        currentRouter
+    }
+=======
+>>>>>>> a09c566 (8 ДЗ. Добавил компонент для зависимости класса UserMapper.)
 
     @Provides
     @Singleton
     fun provideUserPresenter(): UserPresenter {
         return UserPresenter(
             provideImpl(),
-            PopularLibrariesApp.instance.router
+            router
         )
     }
 
@@ -34,7 +47,7 @@ class GithubUsersListModule {
     fun provideUserInfoPresenter(): UserInfoPresenter {
         return UserInfoPresenter(
             provideImpl(),
-            PopularLibrariesApp.instance.router,
+            router,
             AndroidSchedulers.mainThread()
         )
     }
