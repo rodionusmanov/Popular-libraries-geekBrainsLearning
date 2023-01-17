@@ -23,7 +23,7 @@ class GithubRepositoryImpl constructor(
     lateinit var mapper: UserMapper
 
     private val userMapper: UserMapper by lazy {
-        PopularLibrariesApp.applicationComponent.injectUserMapper(this)
+        PopularLibrariesApp.instance.applicationComponent.inject(this)
         mapper
     }
 

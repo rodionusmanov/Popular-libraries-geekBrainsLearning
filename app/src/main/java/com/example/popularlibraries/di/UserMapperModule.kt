@@ -11,7 +11,6 @@ class UserMapperModule {
     @Provides
     @Singleton
     fun provideUserMapper(): UserMapper {
-        val userMapper = UserMapper()
-        return userMapper
+        return UserMapper()
     }
 }

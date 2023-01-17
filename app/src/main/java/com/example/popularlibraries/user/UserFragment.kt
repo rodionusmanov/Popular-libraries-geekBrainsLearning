@@ -28,7 +28,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedListener {
     lateinit var userPresenter: UserPresenter
 
     private val presenter: UserPresenter by moxyPresenter {
-        PopularLibrariesApp.applicationComponent.injectUserFragment(this)
+        PopularLibrariesApp.instance.applicationComponent.inject(this)
         userPresenter
     }
 
