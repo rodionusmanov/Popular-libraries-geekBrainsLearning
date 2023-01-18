@@ -19,10 +19,6 @@ class UserInfoPresenter(
 
     private val bag = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-    }
-
     fun loadUser(login: String) {
         viewState.loadingUserList()
         repository.getUserById(login)
